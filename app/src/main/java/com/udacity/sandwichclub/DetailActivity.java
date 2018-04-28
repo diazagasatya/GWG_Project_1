@@ -22,6 +22,7 @@ public class DetailActivity extends AppCompatActivity {
 
         ImageView ingredientsIv = findViewById(R.id.image_iv);
 
+
         Intent intent = getIntent();
         if (intent == null) {
             closeOnError();
@@ -51,11 +52,18 @@ public class DetailActivity extends AppCompatActivity {
         setTitle(sandwich.getMainName());
     }
 
+    /**
+     * This will print out toast stating the failure of grabbing data from JsonUtils
+     */
     private void closeOnError() {
         finish();
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * In here you will set the textView and imageView to the corresponding data grabbed
+     * from JsonUtils.
+     */
     private void populateUI() {
 
     }
