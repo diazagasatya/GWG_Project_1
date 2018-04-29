@@ -10,7 +10,7 @@ import java.util.List;
 public class JsonUtils {
 
     // Initialization of strings before JSON parsing
-    final static String INITIALIZATION = "UNKNOWN";
+    private final static String INITIALIZATION = "N/A";
 
     /**
      * This method will parse the JSON information and instantiate a Sandwich Object
@@ -43,13 +43,16 @@ public class JsonUtils {
             // Grab the string value of alsoKnownAs get rid of the square brackets
             String alsoKnownAsString = name.getString("alsoKnownAs")
                     .replaceAll("\\[", "")
-                    .replaceAll("\\]","");
+                    .replaceAll("]","")
+                    .replaceAll("\"", "");
 
             // Iterate to all of the string parse and store string values to List<String>
-            alsoKnownAsList = Arrays.asList(alsoKnownAsString.split("[^A-z ]"));
+            alsoKnownAsList = Arrays.asList(alsoKnownAsString.split(","));
 
             // Grab the place of the origin
-            placeOfOrigin = sandwich.getString("placeOfOrigin");
+            if(!sandwich.get("placeOfOrigin").equals("")) {
+                placeOfOrigin = sandwich.getString("placeOfOrigin");
+            }
 
             // Grab the description
             description = sandwich.getString("description");
@@ -60,9 +63,10 @@ public class JsonUtils {
             // Grab the ingredients
             String ingredients = sandwich.getString("ingredients")
                     .replaceAll("\\[", "")
-                    .replaceAll("\\]","");
+                    .replaceAll("]","")
+                    .replaceAll("\"", "");
 
-            ingredientsList = Arrays.asList(ingredients.split("[^A-z ]"));
+            ingredientsList = Arrays.asList(ingredients.split(","));
 
             // If pass here, therefore there's no exception
             validation = true;
@@ -74,9 +78,9 @@ public class JsonUtils {
 
         // Instantiate Sandwich object only if no Exception thrown
         if(validation) {
-            Sandwich sandwichObject = new Sandwich(mainName,alsoKnownAsList,
+            Sandwich initializedSandwich = new Sandwich(mainName,alsoKnownAsList,
                     placeOfOrigin,description,image,ingredientsList);
-            return sandwichObject;
+            return initializedSandwich;
         }
 
         return null;
